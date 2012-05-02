@@ -66,7 +66,7 @@ class UserSignup(webapp2.RequestHandler):
         password = self.request.get('password')
         verify = self.request.get('verify')
         email = self.request.get('email')
-        # XXX: ESCAPE INPUT FOR HTML
+
         if not self.validate_username(username):
             errors['username_error'] = 'Invalid username.'
         if not self.validate_password(password):
