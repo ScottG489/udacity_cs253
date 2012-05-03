@@ -66,6 +66,8 @@ class UserSignup(webapp2.RequestHandler):
         self.write_form()
 
     def post(self):
+        self.response.headers['Content-Type'] = 'text/html'
+
         errors = {}
         username = self.request.get('username')
         password = self.request.get('password')
@@ -87,7 +89,7 @@ class UserSignup(webapp2.RequestHandler):
         if errors:
             self.write_form(username, email, **errors)
         else:
-            self.response.out.write('Welcome, ' + username + '!')
+            self.redirect('/unit2/user_signup/welcome?username=' + username)
 
     def escape_html(self, s):
         return cgi.escape(s, quote=True)
@@ -110,9 +112,14 @@ class UserSignup(webapp2.RequestHandler):
 
         return False
 
+class UserSignupWelcome(webapp2.RequestHandler):
+    def get(self):
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.out.write('Welcome, <b>' + self.request.get('username') + '</b>!')
+
 class Rot13(webapp2.RequestHandler):
     def get(self):
-        #self.response.headers['Content-Type'] = 'text/plain'
+        self.response.headers['Content-Type'] = 'text/html'
         self.write_form()
 
     def post(self):
@@ -169,5 +176,6 @@ class Rot13(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([('/', MainPage),
                             ('/unit2/rot13', Rot13),
-                            ('/unit2/user_signup', UserSignup)],
+                            ('/unit2/user_signup', UserSignup),
+                            ('/unit2/user_signup/welcome', UserSignupWelcome)],
                             debug=True)
