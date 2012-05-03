@@ -1,8 +1,42 @@
-import webapp2
 import re
 import cgi
+import webapp2
 
-class UserSignup(webapp2.RequestHandler):
+class MainPage(webapp2.RequestHandler):
+    def get(self):
+        self.write_form()
+
+    def post(self):
+        rot13 = UserSignup()
+        self.response.headers['Content-Type'] = 'text/html'
+
+        errors = {}
+        username = self.request.get('username')
+        password = self.request.get('password')
+        verify = self.request.get('verify')
+        email = self.request.get('email')
+
+        if not rot13.is_valid_username(username):
+            errors['username_error'] = 'Invalid username.'
+        if not rot13.is_valid_password(password):
+            errors['password_error'] = 'Invalid password.'
+        elif password != verify:
+            errors['verify_error'] = 'Passwords don\'t match.'
+        if not rot13.is_valid_email(email):
+            errors['email_error'] = 'Invalid email.'
+
+        username = self.escape_html(username)
+        email = self.escape_html(email)
+
+        if errors:
+            self.write_form(username, email, **errors)
+        else:
+            self.redirect('/unit2/user_signup/welcome?username=' + username)
+
+    def escape_html(self, s):
+        return cgi.escape(s, quote=True)
+
+class UserSignup(object):
 #    def __init__(self):
 
     def write_form(self, username='', email='', username_error='',
@@ -34,37 +68,6 @@ class UserSignup(webapp2.RequestHandler):
             password_error, 'verify_error': verify_error, 'email_error': email_error})
 
 
-    def get(self):
-        self.write_form()
-
-    def post(self):
-        self.response.headers['Content-Type'] = 'text/html'
-
-        errors = {}
-        username = self.request.get('username')
-        password = self.request.get('password')
-        verify = self.request.get('verify')
-        email = self.request.get('email')
-
-        if not self.is_valid_username(username):
-            errors['username_error'] = 'Invalid username.'
-        if not self.is_valid_password(password):
-            errors['password_error'] = 'Invalid password.'
-        elif password != verify:
-            errors['verify_error'] = 'Passwords don\'t match.'
-        if not self.is_valid_email(email):
-            errors['email_error'] = 'Invalid email.'
-
-        username = self.escape_html(username)
-        email = self.escape_html(email)
-
-        if errors:
-            self.write_form(username, email, **errors)
-        else:
-            self.redirect('/unit2/user_signup/welcome?username=' + username)
-
-    def escape_html(self, s):
-        return cgi.escape(s, quote=True)
 
     def is_valid_username(self, username):
         if username != '' and re.search('^[a-zA-Z0-9_-]{3,20}$', username):    # Successful match
@@ -84,7 +87,7 @@ class UserSignup(webapp2.RequestHandler):
 
         return False
 
-class UserSignupWelcome(webapp2.RequestHandler):
+class UserSignupWelcome(object):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.out.write('Welcome, <b>' + self.request.get('username') + '</b>!')

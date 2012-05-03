@@ -1,17 +1,21 @@
-import webapp2
 import cgi
+import webapp2
 
-class Rot13(webapp2.RequestHandler):
+class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.write_form()
 
     def post(self):
+        rot13 = Rot13()
         self.response.headers['Content-Type'] = 'text/html'
         text = self.request.get('text')
-        new_text = self.rot13(text) 
+        new_text = rot13.rot13(text)
         new_text = self.escape_html(new_text)
         self.write_form(new_text)
+
+    def escape_html(self, s):
+        return cgi.escape(s, quote=True)
 
     def write_form(self, text=''):
         form="""
@@ -25,9 +29,7 @@ class Rot13(webapp2.RequestHandler):
 
         self.response.out.write(form % {"text": text})
 
-    def escape_html(self, s):
-        return cgi.escape(s, quote=True)
-
+class Rot13(object):
     def rot13(self, s):
         rot13_s = ""
 
@@ -48,12 +50,3 @@ class Rot13(webapp2.RequestHandler):
             else:
                 rot13_s += char
         return rot13_s
-
-
-#class TestHandler(webapp2.RequestHandler):
-#    def post(self):
-#        text = self.request.get("text")
-#        self.response.out.write(text)
-#
-#        self.response.headers['Content-Type'] = 'text/plain'
-#        self.response.out.write(self.request)
