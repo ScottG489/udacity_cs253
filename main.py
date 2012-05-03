@@ -78,7 +78,7 @@ class UserSignup(webapp2.RequestHandler):
             errors['username_error'] = 'Invalid username.'
         if not self.is_valid_password(password):
             errors['password_error'] = 'Invalid password.'
-        if not password == verify:
+        elif password != verify:
             errors['verify_error'] = 'Passwords don\'t match.'
         if not self.is_valid_email(email):
             errors['email_error'] = 'Invalid email.'
