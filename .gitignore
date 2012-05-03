@@ -1,3 +1,4 @@
 *.swp
 *.pyc
 favicon.ico
+.ropeproject

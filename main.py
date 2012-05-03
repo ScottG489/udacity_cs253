@@ -14,6 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+# TODO: Split this up into appropriate class files and projects.
+# TODO: Add logging.
+# TODO: Implement testing.
+
 import webapp2
 import cgi
 import re
@@ -67,13 +72,13 @@ class UserSignup(webapp2.RequestHandler):
         verify = self.request.get('verify')
         email = self.request.get('email')
 
-        if not self.validate_username(username):
+        if not self.is_valid_username(username):
             errors['username_error'] = 'Invalid username.'
-        if not self.validate_password(password):
+        if not self.is_valid_password(password):
             errors['password_error'] = 'Invalid password.'
-        if not self.validate_password_verify(password, verify):
+        if not password == verify:
             errors['verify_error'] = 'Passwords don\'t match.'
-        if not self.validate_email(email):
+        if not self.is_valid_email(email):
             errors['email_error'] = 'Invalid email.'
 
         username = self.escape_html(username)
@@ -81,33 +86,29 @@ class UserSignup(webapp2.RequestHandler):
 
         if errors:
             self.write_form(username, email, **errors)
+        else:
+            self.response.out.write('Welcome, ' + username + '!')
 
     def escape_html(self, s):
         return cgi.escape(s, quote=True)
 
-    def validate_username(self, username):
+    def is_valid_username(self, username):
         if username != '' and re.search('^[a-zA-Z0-9_-]{3,20}$', username):    # Successful match
-            return username
+            return True
 
-        return None
+        return False
 
-    def validate_password(self, password):
+    def is_valid_password(self, password):
         if password != '' and re.search('^.{3,20}$', password):    # Successful match
-            return password
+            return True
 
-        return None
+        return False
 
-    def validate_password_verify(self, password, verify):
-        if password == verify:
-            return verify
-
-        return None
-
-    def validate_email(self, email):
+    def is_valid_email(self, email):
         if email == '' or re.search('^[\S]+@[\S]+\.[\S]+$', email):    # Successful match
-            return email
+            return True
 
-        return None
+        return False
 
 class Rot13(webapp2.RequestHandler):
     def get(self):
