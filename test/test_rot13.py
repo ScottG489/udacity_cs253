@@ -9,8 +9,10 @@ class TestRot13(unittest.TestCase):
     def tearDown(self):    # pylint: disable=C0103
         pass
 
-    def foo(self):
-        self.rot13.rot13('hello')
+    def test_rot13(self):
+        expected = 'Uryyb'
+        actual = self.rot13.rot13('Hello')
+        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':
