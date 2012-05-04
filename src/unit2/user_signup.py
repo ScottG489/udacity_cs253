@@ -2,7 +2,7 @@ import re
 import cgi
 import webapp2
 
-class MainPage(webapp2.RequestHandler):
+class UserSignupMainPage(webapp2.RequestHandler):
     def get(self):
         self.write_form()
 
@@ -36,9 +36,6 @@ class MainPage(webapp2.RequestHandler):
     def escape_html(self, s):
         return cgi.escape(s, quote=True)
 
-class UserSignup(object):
-#    def __init__(self):
-
     def write_form(self, username='', email='', username_error='',
             password_error='', verify_error='', email_error=''):
         self.form="""
@@ -67,8 +64,7 @@ class UserSignup(object):
             email, 'username_error': username_error, 'password_error':
             password_error, 'verify_error': verify_error, 'email_error': email_error})
 
-
-
+class UserSignup(object):
     def is_valid_username(self, username):
         if username != '' and re.search('^[a-zA-Z0-9_-]{3,20}$', username):    # Successful match
             return True
@@ -87,7 +83,7 @@ class UserSignup(object):
 
         return False
 
-class UserSignupWelcome(object):
+class UserSignupWelcome(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.out.write('Welcome, <b>' + self.request.get('username') + '</b>!')
