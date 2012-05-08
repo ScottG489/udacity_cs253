@@ -23,18 +23,21 @@ import webapp2
 from unit1.hello_udacity import HelloUdacity
 from unit2.rot13 import Rot13MainPage
 from unit2.user_signup import UserSignupMainPage, UserSignupWelcome
+from unit3.blog import EntryFormMainPage
 
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         self.response.out.write('<a href="unit2/rot13">unit2/rot13</a><br>')
-        self.response.out.write('<a href="unit2/user_signup">unit2/user_signup</a>')
+        self.response.out.write('<a href="unit2/user_signup">unit2/user_signup</a><br>')
+        self.response.out.write('<a href="unit3/blog">unit3/blog</a><br>')
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
                             ('/unit1/hello_udacity', HelloUdacity),
                             ('/unit2/rot13', Rot13MainPage),
                             ('/unit2/user_signup', UserSignupMainPage),
-                            ('/unit2/user_signup/welcome', UserSignupWelcome)],
+                            ('/unit2/user_signup/welcome', UserSignupWelcome),
+                            ('/unit3/blog/newpost', EntryFormMainPage)],
                             debug=True)
