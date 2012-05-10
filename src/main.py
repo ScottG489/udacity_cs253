@@ -23,7 +23,7 @@ import webapp2
 from unit1.hello_udacity import HelloUdacity
 from unit2.rot13 import Rot13MainPage
 from unit2.user_signup import UserSignupMainPage, UserSignupWelcome
-from unit3.blog import EntryFormMainPage
+from unit3.blog import FrontPageMainPage, EntryFormMainPage, PageEntryMainPage
 
 
 class MainPage(webapp2.RequestHandler):
@@ -39,5 +39,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                             ('/unit2/rot13', Rot13MainPage),
                             ('/unit2/user_signup', UserSignupMainPage),
                             ('/unit2/user_signup/welcome', UserSignupWelcome),
-                            ('/unit3/blog/newpost', EntryFormMainPage)],
+                            ('/unit3/blog', FrontPageMainPage),
+                            ('/unit3/blog/newpost', EntryFormMainPage),
+                            ('/unit3/blog/([0-9]+)', PageEntryMainPage)],
                             debug=True)
