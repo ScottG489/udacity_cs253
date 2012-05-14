@@ -76,10 +76,10 @@ class Encryption(object):
         return user_id_hash == Encryption.make_user_id_hash(user_id)
 
     @staticmethod
-    def make_password_hash(name, pw, salt = None):
+    def make_password_hash(username, password, salt = None):
         if not salt:
             salt = Encryption.make_salt()
-        value_hash = hashlib.sha256(name + pw + salt).hexdigest()
+        value_hash = hashlib.sha256(username + password + salt).hexdigest()
         return '%s,%s' % (value_hash, salt)
 
     @staticmethod
