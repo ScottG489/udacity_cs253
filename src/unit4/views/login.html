@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title>Login</title>
+  <!--<link rel="stylesheet" type="text/css" href="signup.css" />-->
+</head>
+<body>
+    <h1>Login</h1>
+    <form method="post">
+        <label>Username
+          <input name="username" type="text" value="{{username}}">
+        </label>
+        <br>
+        <label>Password
+            <input name="password" type="password">
+        </label>
+        <br>
+        {{login_error}}
+        <input type="submit" />
+    </form>
+</body>
+</html>

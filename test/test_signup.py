@@ -1,5 +1,6 @@
 import unittest
-from unit4.signup import UserDataHandler, Signup, Encryption
+from unit4.signup import UserDataHandler, Signup
+from unit4.encryption import Encryption
 
 from google.appengine.ext import testbed
 

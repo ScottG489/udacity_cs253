@@ -24,7 +24,9 @@ from unit1.hello_udacity import HelloUdacity
 from unit2.rot13 import Rot13MainPage
 from unit2.user_signup import UserSignupMainPage, UserSignupWelcome
 from unit3.blog import FrontPageMainPage, EntryFormMainPage, PageEntryMainPage
-from unit4.signup import SignupMainPage, SignupWelcome
+from unit4.signup import SignupMainPage
+from unit4.login import LoginMainPage
+from unit4.welcome import WelcomeMainPage
 
 
 class MainPage(webapp2.RequestHandler):
@@ -34,6 +36,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.out.write('<a href="unit2/user_signup">unit2/user_signup</a><br>')
         self.response.out.write('<a href="unit3/blog">unit3/blog</a><br>')
         self.response.out.write('<a href="unit4/signup">unit4/signup</a><br>')
+        self.response.out.write('<a href="unit4/login">unit4/login</a><br>')
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
@@ -45,5 +48,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
                             ('/unit3/blog/newpost', EntryFormMainPage),
                             ('/unit3/blog/([0-9]+)', PageEntryMainPage),
                             ('/unit4/signup', SignupMainPage),
-                            ('/unit4/signup/welcome', SignupWelcome)],
+                            ('/unit4/welcome', WelcomeMainPage),
+                            ('/unit4/login', LoginMainPage)],
                             debug=True)
