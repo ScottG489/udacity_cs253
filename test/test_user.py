@@ -32,7 +32,7 @@ class TestUserDataHandler(unittest.TestCase):
         expected = data
 
         self.assertTrue(Encryption.is_valid_password(expected['username'],
-            expected['password'], actual['password']))
+            expected['password'], actual.password))
 
     def test_get_all_page_entries(self):
         actual_input = {}
@@ -51,7 +51,7 @@ class TestUserDataHandler(unittest.TestCase):
         # to validate...
         for item in actual:
             self.assertTrue(Encryption.is_valid_password(actual_input['username'],
-                    actual_input['password'], item['password']))
+                    actual_input['password'], item.password))
 
     def test_get_by_username(self):
         actual_input = {}
@@ -62,10 +62,10 @@ class TestUserDataHandler(unittest.TestCase):
         self.data_handler.put(actual_input['username'],
         actual_input['password'], actual_input['email'])
 
-        user_dict = self.data_handler.get_by_username(actual_input['username'])
+        user = self.data_handler.get_by_username(actual_input['username'])
         self.assertTrue(self.crypt.is_valid_password(actual_input['username'],
-            actual_input['password'], user_dict['password']))
-        self.assertEqual(actual_input['email'], user_dict['email'])
+            actual_input['password'], user.password))
+        self.assertEqual(actual_input['email'], user.email)
 
 
 if __name__ == '__main__':

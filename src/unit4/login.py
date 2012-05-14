@@ -3,7 +3,7 @@ import webapp2
 import jinja2
 import os
 from encryption import Encryption
-#from user import UserDataHandler
+from user import UserDataHandler
 
 #from google.appengine.ext import db
 
@@ -22,22 +22,23 @@ class LoginMainPage(PageHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/html'
 
-        errors = {}
         username = self.request.get('username')
         password = self.request.get('password')
 
         username = self.escape_html(username)
-        Encryption.is_valid_password(username, password, password_hash)
 
-        if errors:
-            self.write_template('login.html', username = username, email =
-                    email, **errors)
-        else:
+        user = UserDataHandler.get_by_username(username)
+        user_id = user.key().id()
+        if Encryption.is_valid_password(username, password,
+                user.password):
             user_id_hash = Encryption.make_user_id_hash(user_id)
             self.response.headers.add_header('Set-Cookie',
                     'user_id=%(user_id)s|%(user_id_hash)s; Path=/'
                     % {'user_id': user_id, 'user_id_hash': user_id_hash})
             self.redirect('/unit4/welcome')
+        else:
+            self.write_template('login.html', username = username, login_error =
+                    'invalid login')
 
     def escape_html(self, s):
         return cgi.escape(s, quote=True)

@@ -5,7 +5,6 @@ import jinja2
 import os
 from encryption import Encryption
 from user import UserDataHandler
-from welcome import WelcomeMainPage
 
 template_dir = os.path.join(os.path.dirname(__file__), 'views')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
@@ -67,7 +66,7 @@ class Signup(object):
     def is_unique_username(self, username):
         all_users = UserDataHandler.get_all()
         for user in all_users:
-            if username == user['username']:
+            if username == user.username:
                 return False
 
         return True

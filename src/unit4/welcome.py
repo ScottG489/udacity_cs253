@@ -16,11 +16,12 @@ class WelcomeMainPage(PageHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         user_id_cookie = self.request.cookies.get('user_id')
-        user_id = user_id_cookie.split('|')[0]
-        user_id_hash = user_id_cookie.split('|')[1]
+        if user_id_cookie:
+            user_id = user_id_cookie.split('|')[0]
+            user_id_hash = user_id_cookie.split('|')[1]
 
-        if Encryption.is_valid_cookie(user_id, user_id_hash):
-            user = UserDataHandler.get_by_id(int(user_id))
-            self.response.out.write('Welcome, <b>' + user.get('username') + '</b>!')
+            if Encryption.is_valid_cookie(user_id, user_id_hash):
+                user = UserDataHandler.get_by_id(int(user_id))
+                self.response.out.write('Welcome, <b>' + user.username + '</b>!')
         else:
             self.redirect('/unit4/signup')
