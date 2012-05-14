@@ -7,7 +7,7 @@ class UserSignupMainPage(webapp2.RequestHandler):
         self.write_form()
 
     def post(self):
-        rot13 = UserSignup()
+        user_signup = UserSignup()
         self.response.headers['Content-Type'] = 'text/html'
 
         errors = {}
@@ -16,13 +16,13 @@ class UserSignupMainPage(webapp2.RequestHandler):
         verify = self.request.get('verify')
         email = self.request.get('email')
 
-        if not rot13.is_valid_username(username):
+        if not user_signup.is_valid_username(username):
             errors['username_error'] = 'Invalid username.'
-        if not rot13.is_valid_password(password):
+        if not user_signup.is_valid_password(password):
             errors['password_error'] = 'Invalid password.'
         elif password != verify:
             errors['verify_error'] = 'Passwords don\'t match.'
-        if not rot13.is_valid_email(email):
+        if not user_signup.is_valid_email(email):
             errors['email_error'] = 'Invalid email.'
 
         username = self.escape_html(username)

@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Title here</title>
+  <!--<link rel="stylesheet" type="text/css" href="signup.css" />-->
+</head>
+<body>
+    <h1>Signup</h1>
+    <form method="post">
+        <label>Username
+          <input name="username" type="text" value="{{username}}">
+        </label>{{username_error}}
+        <br>
+        <label>Password
+            <input name="password" type="password">
+        </label>{{password_error}}
+        <br>
+        <label>Verify Password
+            <input name="verify" type="password">
+        </label>{{verify_error}}
+        <br>
+        <label>Email (optional)
+          <input name="email" type="text" value="{{email}}">
+        </label>{{email_error}}
+        <br>
+        <input type="submit" />
+    </form>
+</body>
+</html>

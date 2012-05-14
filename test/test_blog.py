@@ -2,8 +2,6 @@ import unittest
 #from unit3.blog import FrontPageMainPage
 from unit3.blog import EntryFormMainPage, PageEntryDataHandler
 #from unit3.blog import PageEntryMainPage
-from google.appengine.api import memcache
-from google.appengine.ext import db
 from google.appengine.ext import testbed
 
 class TestEntryForm(unittest.TestCase):

@@ -65,4 +65,3 @@ class PageEntryMainPage(PageHandler):
     def get(self, page_entry_id):
         page_entry = PageEntryDataHandler.get_by_id(int(page_entry_id))
         self.write_template('page_entry.html', **page_entry)
-
