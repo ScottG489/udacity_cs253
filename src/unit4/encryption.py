@@ -1,8 +1,6 @@
 import random
 import string
 import hashlib
-from google.appengine.ext import db
-
 
 class Encryption(object):
     @staticmethod
@@ -31,7 +29,3 @@ class Encryption(object):
     def is_valid_password(username, password, password_hash):
         salt = password_hash.split(',')[1]
         return password_hash == Encryption.make_password_hash(username, password, salt)
-
-class User(db.Model):
-    username = db.StringProperty(required = True)
-    password = db.StringProperty(required = True)
