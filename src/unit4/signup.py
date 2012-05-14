@@ -65,17 +65,15 @@ class Encryption(object):
         return ''.join(random.sample(string.letters,  5))
 
     @staticmethod
-    def make_user_id_hash(user_id, salt = None):
+    def make_user_id_hash(user_id):
+        secret = 'secret string'
         user_id = str(user_id)
-        if not salt:
-            salt = Encryption.make_salt()
-        value_hash = hashlib.sha256(user_id + salt).hexdigest()
-        return '%s|%s' % (value_hash, salt)
+        hash_value = hashlib.sha256(user_id + secret).hexdigest()
+        return hash_value
 
     @staticmethod
     def is_valid_cookie(user_id, user_id_hash):
-        salt = user_id_hash.split('|')[1]
-        return user_id_hash == Encryption.make_user_id_hash(user_id, salt)
+        return user_id_hash == Encryption.make_user_id_hash(user_id)
 
     @staticmethod
     def make_password_hash(name, pw, salt = None):
@@ -147,7 +145,7 @@ class SignupWelcome(PageHandler):
         self.response.headers['Content-Type'] = 'text/html'
         user_id_cookie = self.request.cookies.get('user_id')
         user_id = user_id_cookie.split('|')[0]
-        user_id_hash = '|'.join(user_id_cookie.split('|')[1:])
+        user_id_hash = user_id_cookie.split('|')[1]
 
         if Encryption.is_valid_cookie(user_id, user_id_hash):
             user = UserDataHandler.get_by_id(int(user_id))
