@@ -1,5 +1,7 @@
 import webapp2
+import logging
 import jinja2
+import cgi
 import os
 
 from google.appengine.ext import db
@@ -24,11 +26,16 @@ class EntryFormMainPage(PageHandler):
     def post(self):
         subject = self.request.get('subject')
         content = self.request.get('content')
+        subject = self.escape_html(subject)
+        content = self.escape_html(content)
         if self.is_valid_input(subject) and self.is_valid_input(content):
             page_entry_id = PageEntryDataHandler.put(subject, content)
             self.redirect('/unit3/blog/%s' % str(page_entry_id))
         else:
             self.write_template('entry_form.html', subject = subject, content = content, error = 'error')
+
+    def escape_html(self, s):
+        return cgi.escape(s, quote=True)
 
     def is_valid_input(self, content):
         if content != '':
@@ -53,6 +60,9 @@ class PageEntryDataHandler(object):
         "Returns all page entries as dict's in a list"
         page_entries = db.GqlQuery('SELECT * FROM PageEntry ORDER BY created\
                 DESC')
+        #p = page_entries.fetch(100)
+        #db.delete(p)
+        #return
         return [{'subject': page_entry.subject, 'content': page_entry.content}
                 for page_entry in page_entries]
 

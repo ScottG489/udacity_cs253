@@ -1,4 +1,5 @@
 import cgi
+import logging
 import webapp2
 import jinja2
 import os
@@ -27,10 +28,11 @@ class LoginMainPage(PageHandler):
 
         username = self.escape_html(username)
 
-        user = UserDataHandler.get_by_username(username)
-        user_id = user.key().id()
-        if Encryption.is_valid_password(username, password,
-                user.password):
+        user_list = UserDataHandler.get_by_username(username)
+        if user_list and Encryption.is_valid_password(username, password,
+                user_list[0].password):
+            user = user_list[0]
+            user_id = user.key().id()
             user_id_hash = Encryption.make_user_id_hash(user_id)
             self.response.headers.add_header('Set-Cookie',
                     'user_id=%(user_id)s|%(user_id_hash)s; Path=/'

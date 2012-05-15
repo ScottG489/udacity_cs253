@@ -19,10 +19,10 @@ class UserDataHandler(object):
 
     @staticmethod
     def get_by_username(username):
-        "Returns a user object given a username"
+        "Returns a list of user objects given a username"
         user = db.GqlQuery("SELECT * FROM User WHERE username = '%s'" %
-                username)[0]
-        return user
+                username)
+        return user.fetch(1)
         #return {'username': user.username, 'password': user.password, 'email': user.email}
 
     @staticmethod

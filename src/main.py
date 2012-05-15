@@ -27,6 +27,7 @@ from unit3.blog import FrontPageMainPage, EntryFormMainPage, PageEntryMainPage
 from unit4.signup import SignupMainPage
 from unit4.login import LoginMainPage
 from unit4.welcome import WelcomeMainPage
+from unit4.logout import LogoutMainPage
 
 
 class MainPage(webapp2.RequestHandler):
@@ -37,6 +38,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.out.write('<a href="unit3/blog">unit3/blog</a><br>')
         self.response.out.write('<a href="unit4/signup">unit4/signup</a><br>')
         self.response.out.write('<a href="unit4/login">unit4/login</a><br>')
+        self.response.out.write('<a href="unit4/logout">unit4/logout</a><br>')
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
@@ -49,5 +51,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
                             ('/unit3/blog/([0-9]+)', PageEntryMainPage),
                             ('/unit4/signup', SignupMainPage),
                             ('/unit4/welcome', WelcomeMainPage),
-                            ('/unit4/login', LoginMainPage)],
+                            ('/unit4/login', LoginMainPage),
+                            ('/unit4/logout', LogoutMainPage)],
                             debug=True)
