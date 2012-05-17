@@ -36,7 +36,7 @@ class LoginMainPage(PageHandler):
             self.response.headers.add_header('Set-Cookie',
                     'user_id=%(user_id)s|%(user_id_hash)s; Path=/'
                     % {'user_id': user_id, 'user_id_hash': user_id_hash})
-            self.redirect('/unit4/welcome')
+            self.redirect('/unit5/welcome')
         else:
             self.write_template('login.html', username = username, login_error =
                     'invalid login')

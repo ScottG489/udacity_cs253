@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>CS 253 Blog</title>
+  </head>
+
+<body>
+  <h1><a href="blog">CS 253 Blog</a></h1>
+  <a href="blog/newpost">Create new post</a>
+  {% for page_entry in page_entries %}
+  <h2>{{page_entry.subject}}</h2>
+
+  <p>{{page_entry.content}}</p>
+  {% endfor %}
+
+</body>
+</html>
